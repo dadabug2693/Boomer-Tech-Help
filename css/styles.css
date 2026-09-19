@@ -199,6 +199,7 @@ a:not([class]) { text-underline-offset: 3px; }
   text-decoration: none;
   color: var(--navy-900);
   margin-right: auto;
+  flex: none;
 }
 .brand-mark img {
   width: 46px; height: 46px;
@@ -225,7 +226,7 @@ a:not([class]) { text-underline-offset: 3px; }
 .main-nav ul {
   display: flex;
   align-items: center;
-  gap: 1.9rem;
+  gap: clamp(1.1rem, 1.7vw, 1.9rem);
   list-style: none;
 }
 .main-nav a {
@@ -235,10 +236,12 @@ a:not([class]) { text-underline-offset: 3px; }
   font-size: 0.98rem;
   padding: 0.3em 0.1em;
   border-bottom: 2px solid transparent;
+  white-space: nowrap;
 }
 .main-nav a:hover { border-bottom-color: var(--peach-500); }
+.main-nav a[aria-current="page"] { border-bottom-color: var(--peach-500); font-weight: 700; }
 
-.header-cta { margin-left: 0.5rem; }
+.header-cta { margin-left: 0.5rem; padding: 0.75em 1.3em; white-space: nowrap; flex: none; }
 
 .nav-toggle {
   display: none;
@@ -252,7 +255,8 @@ a:not([class]) { text-underline-offset: 3px; }
 }
 .nav-toggle svg { width: 22px; height: 22px; }
 
-@media (max-width: 860px) {
+/* Six nav links plus the YouTube button need more room than the old 860px breakpoint gave them. */
+@media (max-width: 1200px) {
   .main-nav {
     position: absolute;
     inset: 100% 0 auto 0;
@@ -568,6 +572,199 @@ section { padding-block: clamp(3.5rem, 7vw, 6.5rem); }
 .informed-panel .btn-primary { background: #fff; color: var(--navy-900); }
 .informed-panel .btn-primary:hover { background: var(--sky-100); }
 .informed-actions { display: flex; justify-content: flex-end; }
+
+/* ---------- Guides page (guides/index.html) ---------- */
+.guides-page [hidden] { display: none !important; }
+
+/* The site's peach focus ring is faint on parchment, so controls in the guide
+   library use a dark navy ring instead. */
+.guides-page main :focus-visible { outline: 3px solid var(--navy-900); outline-offset: 3px; }
+
+.guides-hero { padding-top: clamp(3rem, 7vw, 5rem); padding-bottom: clamp(2rem, 4vw, 3rem); }
+.guides-hero .eyebrow { font-size: 1rem; }
+.guides-hero h1 { font-size: var(--step-4); margin-block: 0.4em 0.5em; max-width: 22ch; }
+.guides-hero .lede { font-size: 1.2rem; color: var(--ink-soft); max-width: 60ch; }
+
+/* Search box (used in the hero and above the full library) */
+.guide-search { max-width: 44rem; margin-top: 2rem; }
+.guide-search-label { display: block; margin-bottom: 0.6rem; font-weight: 700; font-size: 1.15rem; color: var(--navy-900); }
+.search-field { position: relative; display: flex; align-items: center; }
+.search-icon { position: absolute; left: 1.15rem; width: 1.5rem; height: 1.5rem; color: var(--navy-700); pointer-events: none; }
+.search-field input {
+  width: 100%;
+  min-height: 3.5rem;
+  padding: 0.75rem 1rem 0.75rem 3.25rem;
+  font: inherit;
+  font-size: 1.15rem;
+  color: var(--ink);
+  background: #fff;
+  border: 2px solid var(--navy-700);
+  border-radius: 999px;
+  -webkit-appearance: none;
+  appearance: none;
+}
+/* Leave room for the Clear button only while there is text to clear. */
+.search-field input:not(:placeholder-shown) { padding-right: 6.5rem; }
+.search-field input::placeholder { color: var(--ink-soft); opacity: 1; }
+.search-field input::-webkit-search-cancel-button { -webkit-appearance: none; display: none; }
+.search-clear {
+  position: absolute;
+  right: 0.5rem;
+  min-height: 2.75rem;
+  padding: 0 1.15rem;
+  font: inherit;
+  font-weight: 700;
+  color: var(--navy-900);
+  background: var(--sky-100);
+  border: 2px solid var(--navy-700);
+  border-radius: 999px;
+  cursor: pointer;
+}
+.search-clear:hover { background: var(--sky-300); }
+.search-status { margin: 0.9rem 0 0; font-weight: 600; color: var(--navy-900); }
+.search-status a { margin-left: 0.6em; font-weight: 700; }
+
+.guide-noscript { padding: 1.25rem 1.5rem; background: var(--paper); border: 1px solid var(--hairline); border-radius: var(--radius-md); }
+
+/* Guide cards */
+.popular-section { padding-top: clamp(1.5rem, 3vw, 2.5rem); }
+.guide-grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 20rem), 1fr));
+  gap: 1.5rem;
+}
+.guide-grid > li { display: flex; }
+.guide-card {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 1.6rem 1.5rem;
+  background: var(--paper);
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-lg);
+}
+.guide-card-top { display: flex; align-items: center; gap: 0.8rem; margin-bottom: 1rem; }
+.guide-icon {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 44px; height: 44px;
+  border-radius: 12px;
+  background: var(--sky-100);
+  color: var(--navy-700);
+}
+.guide-icon svg { width: 24px; height: 24px; }
+.guide-category { margin: 0; font-weight: 600; font-size: 1rem; line-height: 1.3; color: var(--navy-700); }
+.guide-card h3 { font-size: 1.3rem; line-height: 1.25; margin-bottom: 0.5em; }
+.guide-desc { margin-bottom: 1.25rem; font-size: 1.02rem; color: var(--ink-soft); }
+.guide-meta {
+  margin-top: auto;
+  padding-top: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6rem 1rem;
+  border-top: 1px dashed var(--hairline);
+}
+.guide-time, .guide-status { margin: 0; display: inline-flex; align-items: center; gap: 0.5em; font-size: 1rem; font-weight: 600; }
+.guide-time svg, .guide-status svg { width: 1.15em; height: 1.15em; flex: none; }
+.guide-time { color: var(--ink-soft); }
+/* Icon + words + outline, so the status never depends on color alone. */
+.guide-status {
+  padding: 0.35em 0.9em;
+  color: var(--navy-900);
+  background: var(--sky-100);
+  border: 1px solid rgba(22, 53, 95, 0.4);
+  border-radius: 999px;
+}
+.guide-link { padding: 0.55em 1.2em; }
+
+/* Topic cards */
+.topics-section { background: var(--sky-100); }
+.topic-grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 16rem), 1fr));
+  gap: 1.25rem;
+}
+.topic-grid > li { display: flex; }
+.topic-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 1.4rem;
+  font: inherit;
+  text-align: left;
+  color: var(--ink);
+  background: var(--paper);
+  border: 2px solid var(--hairline);
+  border-radius: var(--radius-lg);
+  cursor: pointer;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
+}
+.topic-card:hover { border-color: var(--navy-700); box-shadow: var(--shadow-soft); }
+.topic-card-top { display: flex; align-items: center; justify-content: space-between; width: 100%; margin-bottom: 0.35rem; }
+.topic-name { font-family: var(--font-display); font-weight: 600; font-size: 1.25rem; line-height: 1.2; color: var(--navy-900); }
+.topic-desc { font-size: 1rem; color: var(--ink-soft); }
+.topic-count { margin-top: auto; padding-top: 0.5rem; font-weight: 700; font-size: 1rem; color: var(--navy-700); }
+.topic-selected { display: none; align-items: center; gap: 0.4em; font-weight: 700; font-size: 1rem; }
+.topic-selected svg { width: 1.2em; height: 1.2em; }
+/* Selected = filled card + check mark + the word "Selected". */
+.topic-card[aria-pressed="true"] { color: #fff; background: var(--navy-700); border-color: var(--navy-700); }
+.topic-card[aria-pressed="true"] .topic-name,
+.topic-card[aria-pressed="true"] .topic-count { color: #fff; }
+.topic-card[aria-pressed="true"] .topic-desc { color: rgba(255, 255, 255, 0.9); }
+.topic-card[aria-pressed="true"] .guide-icon { color: #fff; background: rgba(255, 255, 255, 0.16); }
+.topic-card[aria-pressed="true"] .topic-selected { display: inline-flex; }
+
+/* All Help Guides */
+.library-section { scroll-margin-top: 4.75rem; }
+.library-section .section-head { margin-bottom: 1.5rem; }
+.library-tools { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 1.25rem 1.5rem; margin-bottom: 1.5rem; }
+.library-tools .guide-search { flex: 1 1 22rem; max-width: 34rem; margin-top: 0; }
+.library-tools .guide-search-label, .topic-filter label { font-size: 1.05rem; }
+.topic-filter { flex: 0 1 19rem; min-width: min(100%, 14rem); }
+.topic-filter label { display: block; margin-bottom: 0.6rem; font-weight: 700; color: var(--navy-900); }
+.topic-filter select {
+  width: 100%;
+  min-height: 3.5rem;
+  padding: 0.75rem 1rem;
+  font: inherit;
+  font-size: 1.05rem;
+  color: var(--ink);
+  background: #fff;
+  border: 2px solid var(--navy-700);
+  border-radius: var(--radius-md);
+}
+.result-count { margin-bottom: 1.25rem; font-weight: 700; font-size: 1.1rem; color: var(--navy-900); }
+.empty-state {
+  max-width: 40rem;
+  padding: clamp(1.5rem, 4vw, 2.25rem);
+  background: var(--paper);
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-lg);
+}
+.empty-message { margin: 0 0 1.5rem; font-family: var(--font-display); font-weight: 600; font-size: var(--step-1); line-height: 1.35; color: var(--navy-900); }
+
+/* Reassurance */
+.reassure-section { background: var(--navy-900); color: #f2efe6; }
+.reassure-inner { max-width: 46rem; }
+.reassure-inner h2 { color: #fff; font-size: var(--step-3); }
+.reassure-inner p { font-size: 1.2rem; color: rgba(242, 239, 230, 0.9); }
+.reassure-inner .closing-line { margin: 1.75rem 0 0; font-family: var(--font-display); font-style: italic; font-weight: 500; font-size: var(--step-2); color: var(--peach-400); }
+
+/* Still need help? */
+#still-heading { margin-top: 0; font-size: var(--step-2); }
+.cta-copy { max-width: 56ch; color: var(--ink-soft); }
+.cta-actions { display: flex; flex-wrap: wrap; gap: 0.9rem; margin-top: 1.5rem; }
 
 /* ---------- Footer ---------- */
 .site-footer {

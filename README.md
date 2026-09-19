@@ -1,13 +1,18 @@
 # Boomer Tech Help — landing page
 
-A single-page, static site for boomertechhelps.com. Plain HTML/CSS/JS — no build step, no framework, no dependencies.
+A small static site for boomertechhelps.com (a home page plus the Help Guides page). Plain HTML/CSS/JS — no build step, no framework, no dependencies.
 
 ## Files
 
 ```
-index.html          The whole page
-css/styles.css       All styles (design tokens at the top of the file)
+index.html          The home page
+guides/index.html    Help Guides landing page (served at /guides/)
+css/styles.css       All styles for both pages (design tokens at the top of the file)
 js/main.js            Mobile nav, share button, footer year, scroll reveal
+js/guides-data.js     The guide library: every topic and guide record
+js/guides.js          Builds and filters the guide library on /guides/
+robots.txt           Allows search engines and points them to the sitemap
+sitemap.xml          Lists the public pages for search engines (add new pages here)
 assets/logo.png       Boomer Tech Help logo (from the YouTube channel)
 assets/favicon-*.png  Favicons generated from the logo
 assets/apple-touch-icon.png
@@ -23,6 +28,10 @@ python3 -m http.server 8000
 ```
 
 Then open `http://localhost:8000` in a browser.
+
+## Adding a guide
+
+Open `js/guides-data.js` and add one record to `GUIDES`. Cards, topic counts, the topic menu and search all update automatically. A guide with `url: null` shows a "Coming soon" status; set `url` to its article page (for example `'/guides/how-do-i-scan-a-qr-code/'`) and the card becomes a "Read the guide" link. Give a guide a `popular` number (1 = first) to feature it under Popular Questions.
 
 ## One place to update links
 
